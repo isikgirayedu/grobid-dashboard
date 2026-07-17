@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GROBID Citation Training</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --ink: #171a1f;
+      --muted: #5d6673;
+      --line: #d8dde6;
+      --blue: #1f65d6;
+      --red: #c93434;
+      --orange: #d9741f;
+      --green: #25835a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    h1 { font-size: 20px; margin: 0; font-weight: 650; letter-spacing: 0; }
+    main { padding: 18px 24px 28px; max-width: 1480px; margin: 0 auto; }
+    button {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: white;
+      color: var(--ink);
+      padding: 8px 11px;
+      cursor: pointer;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .metric, .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .metric .label { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
+    .metric .value { font-size: 22px; font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .metric .hint { color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .panel h2 { margin: 0 0 10px; font-size: 15px; font-weight: 650; }
+    canvas { width: 100%; height: 250px; display: block; }
+    table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+    th, td { padding: 7px 8px; border-bottom: 1px solid var(--line); text-align: right; }
+    th:first-child, td:first-child { text-align: left; }
+    th { color: var(--muted); font-size: 12px; font-weight: 600; }
+    .statusline { color: var(--muted); font-size: 13px; margin: 8px 0 0; }
+    .error {
+      border-left: 4px solid var(--red);
+      padding: 9px 11px;
+      background: #fff1f1;
+      color: #5b1818;
+      margin-top: 10px;
+      border-radius: 4px;
+    }
+    @media (max-width: 980px) {
+      header { align-items: flex-start; flex-direction: column; }
+      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .two { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>GROBID Citation Training</h1>
+    <button id="refresh">Refresh</button>
+  </header>
+  <main>
+    <section class="metrics">
+      <div class="metric"><div class="label">Job</div><div id="job" class="value">-</div><div id="jobHint" class="hint"></div></div>
+      <div class="metric"><div class="label">State</div><div id="state" class="value">-</div><div id="elapsed" class="hint"></div></div>
+      <div class="metric"><div class="label">Iteration</div><div id="iter" class="value">-</div><div id="iterHint" class="hint"></div></div>
+      <div class="metric"><div class="label">Token Error</div><div id="tokenErr" class="value">-</div><div class="hint">lower is better</div></div>
+      <div class="metric"><div class="label">Sequence Error</div><div id="seqErr" class="value">-</div><div class="hint">lower is better</div></div>
+      <div class="metric"><div class="label">ETA to Target</div><div id="eta" class="value">-</div><div id="etaHint" class="hint"></div></div>
+    </section>
+    <section class="grid">
+      <div class="panel">
+        <h2>Objective</h2>
+        <canvas id="objective"></canvas>
+      </div>
+      <div class="two">
+        <div class="panel">
+          <h2>Error</h2>
+          <canvas id="errors"></canvas>
+        </div>
+        <div class="panel">
+          <h2>Iteration Time</h2>
+          <canvas id="times"></canvas>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Recent Iterations</h2>
+        <table>
+          <thead><tr><th>iter</th><th>stage</th><th>objective</th><th>token err</th><th>seq err</th><th>min</th><th>total h</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <p id="statusline" class="statusline"></p>
+        <div id="error" class="error" style="display:none"></div>
+      </div>
+    </section>
+  </main>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let lastData = null;
+
+    function fmt(value, digits = 2) {
+      if (value === null || value === undefined || Number.isNaN(value)) return "-";
+      return Number(value).toFixed(digits);
+    }
+    function fmtEta(hours) {
+      if (hours === null || hours === undefined) return "-";
+      if (hours < 1) return `${Math.round(hours * 60)}m`;
+      const h = Math.floor(hours);
+      const m = Math.round((hours - h) * 60);
+      return `${h}h ${m}m`;
+    }
+    function scale(values, height, pad) {
+      const min = Math.min(...values);
+      const max = Math.max(...values);
+      const span = max - min || 1;
+      return (value) => height - pad - ((value - min) / span) * (height - pad * 2);
+    }
+    function drawChart(canvas, series) {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.max(600, Math.floor(rect.width * dpr));
+      canvas.height = Math.floor(rect.height * dpr);
+      const ctx = canvas.getContext("2d");
+      ctx.scale(dpr, dpr);
+      const width = canvas.width / dpr;
+      const height = canvas.height / dpr;
+      const pad = 34;
+      ctx.clearRect(0, 0, width, height);
+      ctx.strokeStyle = "#d8dde6";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad, pad);
+      ctx.lineTo(pad, height - pad);
+      ctx.lineTo(width - pad, height - pad);
+      ctx.stroke();
+      const allY = series.flatMap(s => s.y);
+      if (!allY.length) return;
+      const xValues = series[0].x;
+      const minX = Math.min(...xValues);
+      const maxX = Math.max(...xValues);
+      const spanX = maxX - minX || 1;
+      const yScale = scale(allY, height, pad);
+      const xScale = (x) => pad + ((x - minX) / spanX) * (width - pad * 2);
+      ctx.fillStyle = "#5d6673";
+      ctx.font = "12px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
+      ctx.fillText(`${Math.round(Math.max(...allY) * 100) / 100}`, 4, pad + 4);
+      ctx.fillText(`${Math.round(Math.min(...allY) * 100) / 100}`, 4, height - pad);
+      ctx.fillText(`${minX}`, pad, height - 8);
+      ctx.fillText(`${maxX}`, width - pad - 28, height - 8);
+      for (const s of series) {
+        ctx.strokeStyle = s.color;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        s.x.forEach((x, i) => {
+          const px = xScale(x);
+          const py = yScale(s.y[i]);
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        });
+        ctx.stroke();
+      }
+    }
+    function render(data) {
+      lastData = data;
+      const summary = data.summary || {};
+      const status = data.status || {};
+      const rows = data.rows || [];
+      $("job").textContent = data.job_id || "-";
+      $("jobHint").textContent = data.checkpoints?.latest ? `checkpoint ${data.checkpoints.latest}` : "";
+      $("state").textContent = status.state || (rows.length ? "LOG ONLY" : "-");
+      $("elapsed").textContent = status.elapsed ? `${status.elapsed} / ${status.time_limit || ""}` : "";
+      $("iter").textContent = summary.last_iteration ?? "-";
+      $("iterHint").textContent = summary.avg_last_iterations_min ? `${fmt(summary.avg_last_iterations_min)} min/iter` : "";
+      $("tokenErr").textContent = summary.token_error_pct === undefined ? "-" : `${fmt(summary.token_error_pct)}%`;
+      $("seqErr").textContent = summary.sequence_error_pct === undefined ? "-" : `${fmt(summary.sequence_error_pct)}%`;
+      $("eta").textContent = fmtEta(summary.eta_to_target_hours);
+      $("etaHint").textContent = summary.target_iteration ? `to iter ${summary.target_iteration}` : "";
+      $("statusline").textContent = `generated ${data.generated_at}; log ${data.log_file?.mtime_text || "missing"}`;
+      const errors = [data.status_error].filter(Boolean);
+      $("error").textContent = errors.join(" | ");
+      $("error").style.display = errors.length ? "block" : "none";
+      $("rows").innerHTML = rows.slice(-12).reverse().map(r => (
+        `<tr><td>${r.iteration}</td><td>${r.stage}</td><td>${fmt(r.objective, 2)}</td><td>${fmt(r.token_error_pct, 2)}%</td><td>${fmt(r.sequence_error_pct, 2)}%</td><td>${fmt(r.iteration_seconds / 60, 2)}</td><td>${fmt(r.total_hours, 2)}</td></tr>`
+      )).join("");
+      const x = rows.map(r => r.iteration);
+      drawChart($("objective"), [{ x, y: rows.map(r => r.objective), color: "#1f65d6" }]);
+      drawChart($("errors"), [
+        { x, y: rows.map(r => r.token_error_pct), color: "#c93434" },
+        { x, y: rows.map(r => r.sequence_error_pct), color: "#d9741f" },
+      ]);
+      drawChart($("times"), [{ x, y: rows.map(r => r.iteration_seconds / 60), color: "#25835a" }]);
+    }
+    async function load() {
+      const response = await fetch(`progress.json?ts=${Date.now()}`, { cache: "no-store" });
+      render(await response.json());
+    }
+    $("refresh").addEventListener("click", load);
+    window.addEventListener("resize", () => { if (lastData) render(lastData); });
+    load().catch(error => {
+      $("error").textContent = error.message;
+      $("error").style.display = "block";
+    });
+  </script>
+</body>
+</html>
