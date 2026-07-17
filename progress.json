@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-17 14:38:42",
+  "generated_at": "2026-07-17 15:56:31",
   "job_id": "6103492",
   "status": {
     "state": "RUNNING",
-    "elapsed": "4:18:41",
+    "elapsed": "5:36:30",
     "time_limit": "3-00:00:00",
     "reason": "barbun45"
   },
@@ -11,22 +11,22 @@
   "log_file": {
     "exists": true,
     "path": "/arf/scratch/isonal/grobid-training/grobid-source/train_citation_from_features.6103492.err",
-    "size": 10222,
-    "mtime": 1784288319.0,
-    "mtime_text": "2026-07-17 14:38:39"
+    "size": 18414,
+    "mtime": 1784292989.0,
+    "mtime_text": "2026-07-17 15:56:29"
   },
   "summary": {
     "has_rows": true,
-    "last_iteration": 25,
-    "stage": 1,
-    "raw_iteration": 25,
-    "objective": 2623371.98,
-    "token_error_pct": 16.76,
-    "sequence_error_pct": 69.2,
-    "total_hours": 4.18165,
-    "avg_last_iterations_min": 10.3853,
+    "last_iteration": 26,
+    "stage": 2,
+    "raw_iteration": 1,
+    "objective": 3710428.22,
+    "token_error_pct": 18.07,
+    "sequence_error_pct": 71.32,
+    "total_hours": 1.078836111111111,
+    "avg_last_iterations_min": 19.959866666666667,
     "target_iteration": 3000,
-    "eta_to_target_hours": 514.9377916666667
+    "eta_to_target_hours": 989.344057777778
   },
   "rows": [
     {
@@ -328,13 +328,25 @@
       "iteration_seconds": 539.24,
       "total_seconds": 15053.94,
       "total_hours": 4.18165
+    },
+    {
+      "iteration": 26,
+      "raw_iteration": 1,
+      "stage": 2,
+      "objective": 3710428.22,
+      "active": 30006450,
+      "token_error_pct": 18.07,
+      "sequence_error_pct": 71.32,
+      "iteration_seconds": 3883.81,
+      "total_seconds": 3883.81,
+      "total_hours": 1.078836111111111
     }
   ],
   "checkpoints": {
     "exists": true,
-    "count": 0,
-    "latest": null,
-    "latest_mtime": null
+    "count": 1,
+    "latest": "model.from-features.stage001.iter0025.20260717143916.wapiti",
+    "latest_mtime": "2026-07-17 14:39:17"
   },
   "checkpoint_note": "The staged run writes a usable model only after each completed stage/checkpoint."
 }
