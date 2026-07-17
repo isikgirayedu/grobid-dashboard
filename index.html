@@ -17,7 +17,6 @@
       <a href="architecture.html">Mimari</a>
       <a href="https://github.com/isikgirayedu/grobid-dashboard" rel="noreferrer">GitHub</a>
       <a href="https://grobid.readthedocs.io/en/latest/Principles/" rel="noreferrer">Official docs</a>
-      <button id="refresh" type="button">Refresh</button>
     </nav>
   </header>
 
@@ -43,8 +42,11 @@
 
     <section class="section">
       <div class="section-header">
-        <h2>Son durum</h2>
-        <p>Degerler GitHub Pages'teki son <code>progress.json</code> dosyasindan okunur.</p>
+        <div>
+          <h2>Son durum</h2>
+          <p>Degerler GitHub Pages'teki son <code>progress.json</code> dosyasindan okunur.</p>
+        </div>
+        <button id="refresh" class="section-button" type="button">Refresh</button>
       </div>
       <div class="metrics" aria-label="Training metrics">
         <div class="metric"><div class="label">Job</div><div id="job" class="value">-</div><div id="jobHint" class="hint"></div></div>

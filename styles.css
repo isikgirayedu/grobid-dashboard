@@ -84,14 +84,12 @@ code {
   justify-content: flex-end;
 }
 
-.nav a,
-.nav button {
+.nav a {
   align-items: center;
   background: white;
   border: 1px solid var(--line);
   border-radius: 6px;
   color: var(--ink);
-  cursor: pointer;
   display: inline-flex;
   font: inherit;
   min-height: 36px;
@@ -196,6 +194,19 @@ code {
 .section-header p {
   margin: 0;
   max-width: 680px;
+}
+
+.section-button {
+  align-items: center;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  min-height: 36px;
+  padding: 7px 11px;
 }
 
 .surface {
