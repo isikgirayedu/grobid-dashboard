@@ -58,53 +58,6 @@
 
     <section class="section">
       <div class="section-header">
-        <h2>Training akisi</h2>
-        <p>Bu sayfada izlenen veri, duzeltilmis TEI corpus'tan Wapiti loguna kadar ayni hattan gelir.</p>
-      </div>
-      <div class="pipeline">
-        <div class="pipeline-step"><strong>GROBID TEI</strong><span>Mevcut model referanslar icin ilk TEI etiketlerini uretir.</span></div>
-        <div class="pipeline-step"><strong>TR Dizin</strong><span>TR Dizin referans metinleri ground truth kabul edilerek TEI duzeltilir.</span></div>
-        <div class="pipeline-step"><strong>Corpus</strong><span>Duzeltilmis dosyalar citation corpus klasorune konur.</span></div>
-        <div class="pipeline-step"><strong>Features</strong><span>Trainer token, feature ve label satirlarini hazirlar.</span></div>
-        <div class="pipeline-step"><strong>Wapiti</strong><span>CRF modeli optimize edilir ve log satirlari dashboard'a akar.</span></div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="grid-2">
-        <article class="surface">
-          <div class="surface-heading">
-            <h3>Metrikler nasil okunur?</h3>
-          </div>
-          <dl class="definitions">
-            <dt>Objective</dt>
-            <dd>Optimizer'in minimize etmeye calistigi kayip fonksiyonu. Dusmesi beklenir, ama tek basina kalite garantisi degildir.</dd>
-            <dt>Token error</dt>
-            <dd>Tek tek token etiketlerinde hata orani. <code>author</code>, <code>title</code>, <code>date</code>, <code>idno</code> gibi alanlari etkiler.</dd>
-            <dt>Sequence error</dt>
-            <dd>Bir referans kaydinda herhangi bir hata olup olmadigina daha sert bakar; bu yuzden token error'dan yuksek kalabilir.</dd>
-            <dt>ETA</dt>
-            <dd>Son iteration surelerinden hesaplanan kaba tahmin. Stage baslari, checkpoint yazimi ve cluster yuku bu tahmini bozabilir.</dd>
-          </dl>
-        </article>
-        <article class="surface">
-          <div class="surface-heading">
-            <h3>Run notlari</h3>
-          </div>
-          <dl class="definitions">
-            <dt>Modeli istedigim anda alabilir miyim?</dt>
-            <dd>Hayir. Wapiti normal training sirasinda her iteration'da kullanilabilir model dosyasi yazmaz. Bu kurulumda kullanilabilir cikti tamamlanan stage/checkpoint sonunda beklenir.</dd>
-            <dt>Neden site aninda degismeyebilir?</dt>
-            <dd>TRUBA update'i event-driven calisir. GitHub Pages tarafinda statik cache olabilir; yeni log satirindan sonra Refresh en son JSON'u ister.</dd>
-            <dt>citation ile reference-segmenter farki</dt>
-            <dd><code>reference-segmenter</code> kaynakca bolumunu referanslara ayirir. <code>citation</code> modeli tek bir referans string'ini alanlara ayirir.</dd>
-          </dl>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-header">
         <h2>Grafikler</h2>
         <p>Wapiti iteration satirlarindaki objective, hata ve sure degerleri.</p>
       </div>
@@ -149,6 +102,53 @@
         </div>
         <p id="statusline" class="statusline"></p>
         <div id="error" class="error" style="display:none"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Training akisi</h2>
+        <p>Bu sayfada izlenen veri, duzeltilmis TEI corpus'tan Wapiti loguna kadar ayni hattan gelir.</p>
+      </div>
+      <div class="pipeline">
+        <div class="pipeline-step"><strong>GROBID TEI</strong><span>Mevcut model referanslar icin ilk TEI etiketlerini uretir.</span></div>
+        <div class="pipeline-step"><strong>TR Dizin</strong><span>TR Dizin referans metinleri ground truth kabul edilerek TEI duzeltilir.</span></div>
+        <div class="pipeline-step"><strong>Corpus</strong><span>Duzeltilmis dosyalar citation corpus klasorune konur.</span></div>
+        <div class="pipeline-step"><strong>Features</strong><span>Trainer token, feature ve label satirlarini hazirlar.</span></div>
+        <div class="pipeline-step"><strong>Wapiti</strong><span>CRF modeli optimize edilir ve log satirlari dashboard'a akar.</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid-2">
+        <article class="surface">
+          <div class="surface-heading">
+            <h3>Metrikler nasil okunur?</h3>
+          </div>
+          <dl class="definitions">
+            <dt>Objective</dt>
+            <dd>Optimizer'in minimize etmeye calistigi kayip fonksiyonu. Dusmesi beklenir, ama tek basina kalite garantisi degildir.</dd>
+            <dt>Token error</dt>
+            <dd>Tek tek token etiketlerinde hata orani. <code>author</code>, <code>title</code>, <code>date</code>, <code>idno</code> gibi alanlari etkiler.</dd>
+            <dt>Sequence error</dt>
+            <dd>Bir referans kaydinda herhangi bir hata olup olmadigina daha sert bakar; bu yuzden token error'dan yuksek kalabilir.</dd>
+            <dt>ETA</dt>
+            <dd>Son iteration surelerinden hesaplanan kaba tahmin. Stage baslari, checkpoint yazimi ve cluster yuku bu tahmini bozabilir.</dd>
+          </dl>
+        </article>
+        <article class="surface">
+          <div class="surface-heading">
+            <h3>Run notlari</h3>
+          </div>
+          <dl class="definitions">
+            <dt>Modeli istedigim anda alabilir miyim?</dt>
+            <dd>Hayir. Wapiti normal training sirasinda her iteration'da kullanilabilir model dosyasi yazmaz. Bu kurulumda kullanilabilir cikti tamamlanan stage/checkpoint sonunda beklenir.</dd>
+            <dt>Neden site aninda degismeyebilir?</dt>
+            <dd>TRUBA update'i event-driven calisir. GitHub Pages tarafinda statik cache olabilir; yeni log satirindan sonra Refresh en son JSON'u ister.</dd>
+            <dt>citation ile reference-segmenter farki</dt>
+            <dd><code>reference-segmenter</code> kaynakca bolumunu referanslara ayirir. <code>citation</code> modeli tek bir referans string'ini alanlara ayirir.</dd>
+          </dl>
+        </article>
       </div>
     </section>
   </main>
