@@ -8,32 +8,31 @@
 </head>
 <body>
   <header class="topbar">
-    <div>
-      <p class="eyebrow">TR Dizin ground truth ile citation modeli</p>
-      <h1>GROBID Citation Training Dashboard</h1>
+    <div class="brand">
+      <p class="eyebrow">TR Dizin training</p>
+      <h1>GROBID Dashboard</h1>
     </div>
     <nav class="nav">
       <a class="active" href="index.html">Canli takip</a>
-      <a href="architecture.html">GROBID mimarisi</a>
-      <a href="https://github.com/isikgirayedu/grobid-dashboard" rel="noreferrer">GitHub repo</a>
+      <a href="architecture.html">Mimari</a>
+      <a href="https://github.com/isikgirayedu/grobid-dashboard" rel="noreferrer">GitHub</a>
       <button id="refresh" type="button">Refresh</button>
     </nav>
   </header>
 
   <main class="page">
-    <section class="intro">
-      <div class="intro-copy">
-        <p class="eyebrow">Bu sayfa neyi gosteriyor?</p>
-        <h2>TRUBA uzerinde calisan Wapiti egitiminin son okunabilir durumunu izliyoruz.</h2>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Canli egitim durumu</p>
+        <h2>TRUBA uzerinde calisan citation training run'inin okunabilir izleme sayfasi.</h2>
         <p>
-          GROBID'in kendi cikardigi referans TEI dosyalari, TR Dizin'den gelen referans metinleri
-          ground truth kabul edilerek duzeltiliyor. Bu duzeltilmis TEI corpus daha sonra GROBID'in
-          <code>citation</code> modeli icin training data oluyor. TRUBA'daki publisher, Wapiti logunda
-          yeni iteration ya da checkpoint satiri gordukce <code>progress.json</code> dosyasini yeniden
-          uretip GitHub Pages'e basiyor.
+          Bu dashboard, TR Dizin referanslarini ground truth kabul ederek uretilen GROBID
+          <code>citation</code> corpus'unun Wapiti training logunu izler. TRUBA'daki publisher yeni
+          iteration veya checkpoint satiri gordugunde <code>progress.json</code> dosyasini yeniler ve
+          GitHub Pages'e push eder.
         </p>
       </div>
-      <div class="intro-facts">
+      <div class="hero-meta" aria-label="Run summary">
         <div><span>Model</span><strong>citation</strong></div>
         <div><span>Ground truth</span><strong>TR Dizin</strong></div>
         <div><span>Trainer</span><strong>Wapiti CRF</strong></div>
@@ -41,69 +40,105 @@
       </div>
     </section>
 
-    <section class="metrics" aria-label="Training metrics">
-      <div class="metric"><div class="label">Job</div><div id="job" class="value">-</div><div id="jobHint" class="hint"></div></div>
-      <div class="metric"><div class="label">State</div><div id="state" class="value">-</div><div id="elapsed" class="hint"></div></div>
-      <div class="metric"><div class="label">Iteration</div><div id="iter" class="value">-</div><div id="iterHint" class="hint"></div></div>
-      <div class="metric"><div class="label">Token Error</div><div id="tokenErr" class="value">-</div><div class="hint">token-level yanlis etiket orani</div></div>
-      <div class="metric"><div class="label">Sequence Error</div><div id="seqErr" class="value">-</div><div class="hint">referans-sequence bazli hata</div></div>
-      <div class="metric"><div class="label">ETA to Target</div><div id="eta" class="value">-</div><div id="etaHint" class="hint"></div></div>
+    <section class="section">
+      <div class="section-header">
+        <h2>Son durum</h2>
+        <p>Degerler GitHub Pages'teki son <code>progress.json</code> dosyasindan okunur.</p>
+      </div>
+      <div class="metrics" aria-label="Training metrics">
+        <div class="metric"><div class="label">Job</div><div id="job" class="value">-</div><div id="jobHint" class="hint"></div></div>
+        <div class="metric"><div class="label">State</div><div id="state" class="value">-</div><div id="elapsed" class="hint"></div></div>
+        <div class="metric"><div class="label">Iteration</div><div id="iter" class="value">-</div><div id="iterHint" class="hint"></div></div>
+        <div class="metric"><div class="label">Token Error</div><div id="tokenErr" class="value">-</div><div class="hint">token-level hata orani</div></div>
+        <div class="metric"><div class="label">Sequence Error</div><div id="seqErr" class="value">-</div><div class="hint">referans bazli hata</div></div>
+        <div class="metric"><div class="label">ETA to Target</div><div id="eta" class="value">-</div><div id="etaHint" class="hint"></div></div>
+      </div>
     </section>
 
-    <section class="explain-grid">
-      <article class="panel">
+    <section class="section">
+      <div class="section-header">
         <h2>Training akisi</h2>
-        <ol class="steps">
-          <li><strong>GROBID pre-annotation</strong><span>PDF veya referans bolumlerinden ilk TEI etiketleri uretilir.</span></li>
-          <li><strong>TR Dizin eslestirme</strong><span>TR Dizin referanslari ground truth kabul edilip GROBID TEI ciktilari otomatik duzeltilir.</span></li>
-          <li><strong>Corpus</strong><span>Duzeltilmis TEI dosyalari <code>grobid-trainer/resources/dataset/citation/corpus</code> altina girer.</span></li>
-          <li><strong>Feature dosyasi</strong><span>TEI etiketleri Wapiti'nin okuyacagi token/feature/label formatina cevrilir.</span></li>
-          <li><strong>CRF training</strong><span>Wapiti L-BFGS ile etiketleme modelini optimize eder ve model tamamlanan stage sonunda kullanilabilir hale gelir.</span></li>
-        </ol>
-      </article>
-      <article class="panel">
-        <h2>Metrikler nasil okunur?</h2>
-        <dl class="definitions">
-          <dt>Objective</dt>
-          <dd>Optimizer'in minimize etmeye calistigi kayip fonksiyonu. Genel olarak dusmesi beklenir; tek basina kalite garantisi degildir.</dd>
-          <dt>Token error</dt>
-          <dd>Tek tek token etiketlerinde hata orani. Citation modelinde <code>author</code>, <code>title</code>, <code>date</code>, <code>idno</code> gibi alanlari etkiler.</dd>
-          <dt>Sequence error</dt>
-          <dd>Bir referans kaydinin tamaminda hata olup olmadigina daha sert bakan oran. Bu yuzden token error'dan yuksek kalabilir.</dd>
-          <dt>ETA</dt>
-          <dd>Son iteration surelerinden hesaplanan kaba tahmin. Stage baslari, checkpoint yazimi ve cluster yuku bu tahmini bozabilir.</dd>
-        </dl>
-      </article>
+        <p>Bu sayfada izlenen veri, duzeltilmis TEI corpus'tan Wapiti loguna kadar ayni hattan gelir.</p>
+      </div>
+      <div class="pipeline">
+        <div class="pipeline-step"><strong>GROBID TEI</strong><span>Mevcut model referanslar icin ilk TEI etiketlerini uretir.</span></div>
+        <div class="pipeline-step"><strong>TR Dizin</strong><span>TR Dizin referans metinleri ground truth kabul edilerek TEI duzeltilir.</span></div>
+        <div class="pipeline-step"><strong>Corpus</strong><span>Duzeltilmis dosyalar citation corpus klasorune konur.</span></div>
+        <div class="pipeline-step"><strong>Features</strong><span>Trainer token, feature ve label satirlarini hazirlar.</span></div>
+        <div class="pipeline-step"><strong>Wapiti</strong><span>CRF modeli optimize edilir ve log satirlari dashboard'a akar.</span></div>
+      </div>
     </section>
 
-    <section class="grid">
-      <div class="panel">
-        <div class="panel-heading">
-          <h2>Objective</h2>
-          <p>Kayip fonksiyonunun iteration boyunca nasil degistigini gosterir.</p>
-        </div>
-        <canvas id="objective"></canvas>
-      </div>
-      <div class="two">
-        <div class="panel">
-          <div class="panel-heading">
-            <h2>Error</h2>
-            <p>Kirmizi token error, turuncu sequence error.</p>
+    <section class="section">
+      <div class="grid-2">
+        <article class="surface">
+          <div class="surface-heading">
+            <h3>Metrikler nasil okunur?</h3>
           </div>
-          <canvas id="errors"></canvas>
-        </div>
-        <div class="panel">
-          <div class="panel-heading">
-            <h2>Iteration Time</h2>
-            <p>Her Wapiti iteration'inin dakika cinsinden suresi.</p>
+          <dl class="definitions">
+            <dt>Objective</dt>
+            <dd>Optimizer'in minimize etmeye calistigi kayip fonksiyonu. Dusmesi beklenir, ama tek basina kalite garantisi degildir.</dd>
+            <dt>Token error</dt>
+            <dd>Tek tek token etiketlerinde hata orani. <code>author</code>, <code>title</code>, <code>date</code>, <code>idno</code> gibi alanlari etkiler.</dd>
+            <dt>Sequence error</dt>
+            <dd>Bir referans kaydinda herhangi bir hata olup olmadigina daha sert bakar; bu yuzden token error'dan yuksek kalabilir.</dd>
+            <dt>ETA</dt>
+            <dd>Son iteration surelerinden hesaplanan kaba tahmin. Stage baslari, checkpoint yazimi ve cluster yuku bu tahmini bozabilir.</dd>
+          </dl>
+        </article>
+        <article class="surface">
+          <div class="surface-heading">
+            <h3>Run notlari</h3>
           </div>
-          <canvas id="times"></canvas>
+          <dl class="definitions">
+            <dt>Modeli istedigim anda alabilir miyim?</dt>
+            <dd>Hayir. Wapiti normal training sirasinda her iteration'da kullanilabilir model dosyasi yazmaz. Bu kurulumda kullanilabilir cikti tamamlanan stage/checkpoint sonunda beklenir.</dd>
+            <dt>Neden site aninda degismeyebilir?</dt>
+            <dd>TRUBA update'i event-driven calisir. GitHub Pages tarafinda statik cache olabilir; yeni log satirindan sonra Refresh en son JSON'u ister.</dd>
+            <dt>citation ile reference-segmenter farki</dt>
+            <dd><code>reference-segmenter</code> kaynakca bolumunu referanslara ayirir. <code>citation</code> modeli tek bir referans string'ini alanlara ayirir.</dd>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Grafikler</h2>
+        <p>Wapiti iteration satirlarindaki objective, hata ve sure degerleri.</p>
+      </div>
+      <div class="chart-grid">
+        <div class="surface">
+          <div class="surface-heading">
+            <h3>Objective</h3>
+            <p>Kayip fonksiyonunun iteration boyunca degisimi.</p>
+          </div>
+          <canvas id="objective"></canvas>
+        </div>
+        <div class="chart-row">
+          <div class="surface">
+            <div class="surface-heading">
+              <h3>Error</h3>
+              <p>Kirmizi token error, turuncu sequence error.</p>
+            </div>
+            <canvas id="errors"></canvas>
+          </div>
+          <div class="surface">
+            <div class="surface-heading">
+              <h3>Iteration Time</h3>
+              <p>Her Wapiti iteration'inin dakika cinsinden suresi.</p>
+            </div>
+            <canvas id="times"></canvas>
+          </div>
         </div>
       </div>
-      <div class="panel">
-        <div class="panel-heading">
-          <h2>Recent Iterations</h2>
-          <p>Son iteration satirlari GitHub Pages'e push edilen <code>progress.json</code> dosyasindan okunur.</p>
+    </section>
+
+    <section class="section">
+      <div class="surface">
+        <div class="surface-heading">
+          <h3>Recent Iterations</h3>
+          <p>Son iteration satirlari <code>progress.json</code> dosyasindan okunur.</p>
         </div>
         <div class="table-wrap">
           <table>
@@ -113,27 +148,6 @@
         </div>
         <p id="statusline" class="statusline"></p>
         <div id="error" class="error" style="display:none"></div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-heading">
-        <h2>Bu run icin pratik notlar</h2>
-        <p>Bu kisim training sirasinda karar verirken hizli referans olsun diye tutuluyor.</p>
-      </div>
-      <div class="note-grid">
-        <div>
-          <h3>Modeli istedigim anda alabilir miyim?</h3>
-          <p>Hayir, Wapiti normal CRF training sirasinda her iteration'da kullanilabilir model dosyasi yazmaz. Bu kurulumda kullanilabilir cikti tamamlanan stage/checkpoint sonunda beklenir.</p>
-        </div>
-        <div>
-          <h3>Neden site aninda degismeyebilir?</h3>
-          <p>TRUBA tarafinda update event-driven. GitHub Pages tarafinda statik dosya cache'i olabilir. Yeni log satiri geldikten sonra dashboard'daki <strong>Refresh</strong> dugmesi en son JSON'u ister.</p>
-        </div>
-        <div>
-          <h3>Reference-segmenter ile citation farki</h3>
-          <p><code>reference-segmenter</code> kaynakca bolumunu tek tek referanslara ayirir. <code>citation</code> modeli ise tek bir referans string'ini alanlara ayirir.</p>
-        </div>
       </div>
     </section>
   </main>
