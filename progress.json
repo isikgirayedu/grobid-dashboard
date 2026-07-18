@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-18 23:22:03",
+  "generated_at": "2026-07-18 23:53:47",
   "job_id": "6103492",
   "status": {
     "state": "RUNNING",
-    "elapsed": "1-13:02:02",
+    "elapsed": "1-13:33:46",
     "time_limit": "3-00:00:00",
     "reason": "barbun45"
   },
@@ -11,22 +11,22 @@
   "log_file": {
     "exists": true,
     "path": "/arf/scratch/isonal/grobid-training/grobid-source/train_citation_from_features.6103492.err",
-    "size": 39911,
-    "mtime": 1784406120.0,
-    "mtime_text": "2026-07-18 23:22:00"
+    "size": 39990,
+    "mtime": 1784408025.0,
+    "mtime_text": "2026-07-18 23:53:45"
   },
   "summary": {
     "has_rows": true,
-    "last_iteration": 93,
+    "last_iteration": 94,
     "stage": 4,
-    "raw_iteration": 18,
-    "objective": 1760113.46,
-    "token_error_pct": 11.68,
-    "sequence_error_pct": 48.94,
-    "total_hours": 12.418222222222221,
-    "avg_last_iterations_min": 32.70903333333334,
+    "raw_iteration": 19,
+    "objective": 1748868.76,
+    "token_error_pct": 11.43,
+    "sequence_error_pct": 48.8,
+    "total_hours": 12.947391666666666,
+    "avg_last_iterations_min": 32.60433333333334,
     "target_iteration": 3000,
-    "eta_to_target_hours": 1584.7526650000002
+    "eta_to_target_hours": 1579.1365444444446
   },
   "rows": [
     {
@@ -1144,6 +1144,18 @@
       "iteration_seconds": 1946.92,
       "total_seconds": 44705.6,
       "total_hours": 12.418222222222221
+    },
+    {
+      "iteration": 94,
+      "raw_iteration": 19,
+      "stage": 4,
+      "objective": 1748868.76,
+      "active": 23211909,
+      "token_error_pct": 11.43,
+      "sequence_error_pct": 48.8,
+      "iteration_seconds": 1905.01,
+      "total_seconds": 46610.61,
+      "total_hours": 12.947391666666666
     }
   ],
   "checkpoints": {
