@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-19 22:41:16",
+  "generated_at": "2026-07-20 03:08:58",
   "job_id": "6103492",
   "status": {
     "state": "RUNNING",
-    "elapsed": "2-12:21:15",
+    "elapsed": "2-16:48:57",
     "time_limit": "3-00:00:00",
     "reason": "barbun45"
   },
@@ -11,22 +11,22 @@
   "log_file": {
     "exists": true,
     "path": "/arf/scratch/isonal/grobid-training/grobid-source/train_citation_from_features.6103492.err",
-    "size": 50554,
-    "mtime": 1784490074.0,
-    "mtime_text": "2026-07-19 22:41:14"
+    "size": 58748,
+    "mtime": 1784506135.0,
+    "mtime_text": "2026-07-20 03:08:55"
   },
   "summary": {
     "has_rows": true,
-    "last_iteration": 125,
-    "stage": 5,
-    "raw_iteration": 25,
-    "objective": 1651682.85,
-    "token_error_pct": 11.13,
-    "sequence_error_pct": 46.61,
-    "total_hours": 19.235788888888887,
-    "avg_last_iterations_min": 39.01493333333333,
+    "last_iteration": 126,
+    "stage": 6,
+    "raw_iteration": 1,
+    "objective": 1903498.52,
+    "token_error_pct": 11.06,
+    "sequence_error_pct": 46.45,
+    "total_hours": 3.979888888888889,
+    "avg_last_iterations_min": 78.93866666666666,
     "target_iteration": 3000,
-    "eta_to_target_hours": 1869.4655555555553
+    "eta_to_target_hours": 3781.1621333333333
   },
   "rows": [
     {
@@ -1528,13 +1528,25 @@
       "iteration_seconds": 2338.76,
       "total_seconds": 69248.84,
       "total_hours": 19.235788888888887
+    },
+    {
+      "iteration": 126,
+      "raw_iteration": 1,
+      "stage": 6,
+      "objective": 1903498.52,
+      "active": 24382989,
+      "token_error_pct": 11.06,
+      "sequence_error_pct": 46.45,
+      "iteration_seconds": 14327.6,
+      "total_seconds": 14327.6,
+      "total_hours": 3.979888888888889
     }
   ],
   "checkpoints": {
     "exists": true,
-    "count": 4,
-    "latest": "model.from-features.stage004.iter0100.20260719030245.wapiti",
-    "latest_mtime": "2026-07-19 03:02:46"
+    "count": 5,
+    "latest": "model.from-features.stage005.iter0125.20260719224142.wapiti",
+    "latest_mtime": "2026-07-19 22:41:44"
   },
   "checkpoint_note": "The staged run writes a usable model only after each completed stage/checkpoint."
 }
