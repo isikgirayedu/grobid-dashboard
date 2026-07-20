@@ -69,19 +69,20 @@
         <article class="surface experiment-card">
           <div class="experiment-topline">
             <span class="status-pill status-pending">PENDING</span>
-            <span>Slurm job 6116002</span>
+            <span>Slurm job 6119305</span>
           </div>
           <h3>Full DeLFT citation GPU</h3>
           <p>
-            Bu yeni run, lightweight olmayan GROBID citation modelini DeLFT engine ile GPU kuyrugunda
-            egitmek icin acildi. Mevcut Wapiti isinden izole edildi; kendi GROBID source tree'si,
-            kendi DeLFT venv'i ve hazirlanmis GloVe LMDB embedding cache'i var.
+            Bu run, lightweight olmayan GROBID citation modelini DeLFT engine ile GPU kuyrugunda
+            egitmek icin guncel 9000 XML train split ile yeniden gonderildi. Mevcut Wapiti isinden
+            izole source tree'de calisir ve DeLFT venv'ini kullanir.
           </p>
           <dl class="mini-facts">
             <div><dt>Source tree</dt><dd>/arf/scratch/isonal/grobid-training/grobid-source-full-citation</dd></div>
             <div><dt>Trainer</dt><dd>DeLFT neural sequence labeling</dd></div>
-            <div><dt>Partition</dt><dd>akya-cuda, 1 GPU, 10 CPU, 90G RAM, 3 gun</dd></div>
-            <div><dt>Log files</dt><dd>train_citation_full_delft.6116002.out / .err</dd></div>
+            <div><dt>Resources</dt><dd>akya-cuda, 1 GPU, 10 CPU, 128G RAM, 3 gun</dd></div>
+            <div><dt>Corpus</dt><dd>9000 train XML; dev/test training corpus'una kurulmaz</dd></div>
+            <div><dt>Log files</dt><dd>train_citation_full_delft.6119305.out / .err</dd></div>
             <div><dt>Model output</dt><dd>Basarili bitiste citation-BidLSTM_CRF_FEATURES modeli ve tar.gz snapshot</dd></div>
           </dl>
         </article>
@@ -94,6 +95,21 @@
         <p>Iteration hizini artirmak icin denenen isler ve neden iptal edildikleri.</p>
       </div>
       <div class="experiment-grid">
+        <article class="surface experiment-card">
+          <div class="experiment-topline">
+            <span class="status-pill status-cancelled">SUPERSEDED</span>
+            <span>Slurm job 6116002</span>
+          </div>
+          <h3>Previous DeLFT GPU submit</h3>
+          <p>
+            Eski GPU submit aktif kuyrukta degildi ve full-citation tree'de eski corpus kalmisti.
+            Guncel 9000 XML train split ile refresh edilip yeni job <code>6119305</code> gonderildi.
+          </p>
+          <dl class="mini-facts">
+            <div><dt>Old corpus</dt><dd>full-citation tree'de 10158 XML goruldu</dd></div>
+            <div><dt>Action</dt><dd>source refresh, corpus count guard, new submit</dd></div>
+          </dl>
+        </article>
         <article class="surface experiment-card">
           <div class="experiment-topline">
             <span class="status-pill status-cancelled">CANCELLED</span>

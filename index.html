@@ -105,17 +105,18 @@
         <article class="surface experiment-card">
           <div class="experiment-topline">
             <span class="status-pill status-pending">PENDING</span>
-            <span>job 6116002</span>
+            <span>job 6119305</span>
           </div>
           <h3>Full DeLFT citation GPU</h3>
           <p>
             Lightweight olmayan GROBID citation modeli icin ayri source tree uzerinde acilan GPU run.
-            Mevcut Wapiti egitiminden izole calisir ve baslayinca kendi log dosyalarini uretir.
+            Full-citation tree guncel 9000 XML train split ile refresh edildi ve DeLFT venv'iyle
+            yeniden submit edildi.
           </p>
           <dl class="mini-facts">
             <div><dt>Engine</dt><dd>DeLFT</dd></div>
-            <div><dt>Partition</dt><dd>akya-cuda</dd></div>
-            <div><dt>Workdir</dt><dd>grobid-source-full-citation</dd></div>
+            <div><dt>Resources</dt><dd>akya-cuda, 1 GPU, 10 CPU, 128G RAM</dd></div>
+            <div><dt>Corpus</dt><dd>9000 train XML</dd></div>
           </dl>
         </article>
       </div>
