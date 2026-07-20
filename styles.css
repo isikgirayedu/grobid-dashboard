@@ -277,6 +277,88 @@ code {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.experiment-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.experiment-card {
+  display: grid;
+  gap: 10px;
+}
+
+.experiment-card h3 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.experiment-card p {
+  margin: 0;
+}
+
+.experiment-topline {
+  align-items: center;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 12px;
+  gap: 8px;
+}
+
+.status-pill {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 5px 8px;
+}
+
+.status-running {
+  background: #e8f6ef;
+  border-color: #a9dbc1;
+  color: #17633e;
+}
+
+.status-pending {
+  background: #fff8e8;
+  border-color: #efcf85;
+  color: #7b4b0a;
+}
+
+.status-ready {
+  background: var(--blue-soft);
+  border-color: #c8d9ff;
+  color: #194a9b;
+}
+
+.mini-facts {
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 8px;
+  margin: 2px 0 0;
+  padding-top: 10px;
+}
+
+.mini-facts div {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 110px minmax(0, 1fr);
+}
+
+.mini-facts dt {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.mini-facts dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .chart-grid {
   display: grid;
   gap: 14px;
@@ -512,6 +594,7 @@ th {
   .hero,
   .grid-2,
   .grid-3,
+  .experiment-grid,
   .chart-row {
     grid-template-columns: 1fr;
   }

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GROBID Experiments</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <p class="eyebrow">TR Dizin training</p>
+      <h1>GROBID Dashboard</h1>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Canli takip</a>
+      <a class="active" href="experiments.html">Experiments</a>
+      <a href="architecture.html">Mimari</a>
+      <a href="https://github.com/isikgirayedu/grobid-dashboard" rel="noreferrer">GitHub</a>
+      <a href="https://grobid.readthedocs.io/en/latest/Principles/" rel="noreferrer">Official docs</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Experiment registry</p>
+        <h2>TR Dizin citation corpus icin acilan egitim denemeleri ve neyi test ettikleri.</h2>
+        <p>
+          Bu sayfa canli Wapiti run ile yeni full DeLFT GPU run arasindaki farki tek yerde tutar.
+          Wapiti karti mevcut canli grafikleri besleyen is; DeLFT karti ise ayni training hattinin
+          lightweight olmayan neural alternatifi olarak ayri source tree uzerinden baslatildi.
+        </p>
+      </div>
+      <div class="hero-meta" aria-label="Experiment summary">
+        <div><span>Active Wapiti job</span><strong>6103492</strong></div>
+        <div><span>New DeLFT job</span><strong>6116002</strong></div>
+        <div><span>Corpus</span><strong>TR Dizin citation</strong></div>
+        <div><span>Cluster</span><strong>TRUBA Slurm</strong></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Aktif experimentler</h2>
+        <p>Durum alanlari submit anindaki Slurm bilgisine gore yazildi; canli Wapiti metrikleri ana sayfada guncellenir.</p>
+      </div>
+      <div class="experiment-grid">
+        <article class="surface experiment-card">
+          <div class="experiment-topline">
+            <span class="status-pill status-running">RUNNING</span>
+            <span>Slurm job 6103492</span>
+          </div>
+          <h3>Wapiti CRF citation from prebuilt features</h3>
+          <p>
+            Bu mevcut lightweight run, daha once uretilmis feature dosyalarindan Wapiti CRF citation
+            modelini egitiyor. Amac hizli geri bildirim almak ve TR Dizin ile otomatik duzeltilen
+            TEI corpus'un model davranisini nasil etkiledigini izlemek.
+          </p>
+          <dl class="mini-facts">
+            <div><dt>Source tree</dt><dd>/arf/scratch/isonal/grobid-training/grobid-source</dd></div>
+            <div><dt>Trainer</dt><dd>Wapiti CRF, L-BFGS</dd></div>
+            <div><dt>Publisher</dt><dd>tail -F yeni iteration veya checkpoint satiri geldikce push eder</dd></div>
+            <div><dt>Dashboard</dt><dd><a href="index.html">Canli takip</a></dd></div>
+          </dl>
+        </article>
+
+        <article class="surface experiment-card">
+          <div class="experiment-topline">
+            <span class="status-pill status-pending">PENDING</span>
+            <span>Slurm job 6116002</span>
+          </div>
+          <h3>Full DeLFT citation GPU</h3>
+          <p>
+            Bu yeni run, lightweight olmayan GROBID citation modelini DeLFT engine ile GPU kuyrugunda
+            egitmek icin acildi. Mevcut Wapiti isinden izole edildi; kendi GROBID source tree'si,
+            kendi DeLFT venv'i ve hazirlanmis GloVe LMDB embedding cache'i var.
+          </p>
+          <dl class="mini-facts">
+            <div><dt>Source tree</dt><dd>/arf/scratch/isonal/grobid-training/grobid-source-full-citation</dd></div>
+            <div><dt>Trainer</dt><dd>DeLFT neural sequence labeling</dd></div>
+            <div><dt>Partition</dt><dd>akya-cuda, 1 GPU, 10 CPU, 90G RAM, 3 gun</dd></div>
+            <div><dt>Log files</dt><dd>train_citation_full_delft.6116002.out / .err</dd></div>
+            <div><dt>Model output</dt><dd>Basarili bitiste citation-BidLSTM_CRF_FEATURES modeli ve tar.gz snapshot</dd></div>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid-2">
+        <article class="surface">
+          <div class="surface-heading">
+            <h3>Neden ayri full source tree?</h3>
+          </div>
+          <p>
+            Wapiti egitimi halen calistigi icin ayni klasorde engine/config degistirmek riskli olurdu.
+            DeLFT run, <code>grobid-source-full-citation</code> altinda izole calisir; boylece mevcut
+            jobun config, model ve log dosyalarina dokunmadan neural modeli deneyebiliriz.
+          </p>
+        </article>
+        <article class="surface">
+          <div class="surface-heading">
+            <h3>200 iteration stage konusu</h3>
+          </div>
+          <p>
+            Wapiti'deki stage mantigi DeLFT icin birebir yok. DeLFT, GROBID'in neural training hattini
+            kullanir ve epoch/model save davranisi DeLFT tarafindan yonetilir. Bu yuzden bu experiment
+            25 iteration Wapiti checkpoint rejiminden bagimsiz kaydedilecek.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
