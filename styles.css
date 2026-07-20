@@ -18,11 +18,16 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
   font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
 }
 
 a {
@@ -39,6 +44,7 @@ code {
   border: 1px solid #e1e5ec;
   border-radius: 4px;
   font-size: 0.92em;
+  overflow-wrap: anywhere;
   padding: 1px 4px;
 }
 
@@ -82,6 +88,8 @@ code {
   flex-wrap: wrap;
   gap: 8px;
   justify-content: flex-end;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .nav a {
@@ -105,6 +113,7 @@ code {
 .page {
   margin: 0 auto;
   max-width: 1480px;
+  min-width: 0;
   padding: 18px 24px 36px;
 }
 
@@ -116,6 +125,8 @@ code {
   gap: 22px;
   grid-template-columns: minmax(0, 1.65fr) minmax(260px, 0.8fr);
   margin-bottom: 14px;
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding: 20px;
 }
 
@@ -125,6 +136,7 @@ code {
   line-height: 1.2;
   margin: 0 0 10px;
   max-width: 980px;
+  overflow-wrap: anywhere;
 }
 
 .hero p,
@@ -213,6 +225,8 @@ code {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 8px;
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding: 14px;
 }
 
@@ -240,6 +254,7 @@ code {
   border: 1px solid var(--line);
   border-radius: 8px;
   min-width: 0;
+  overflow-wrap: anywhere;
   padding: 14px;
 }
 
@@ -332,6 +347,12 @@ code {
   background: var(--blue-soft);
   border-color: #c8d9ff;
   color: #194a9b;
+}
+
+.status-cancelled {
+  background: #f1f3f6;
+  border-color: #cfd6e1;
+  color: #4f5866;
 }
 
 .mini-facts {
@@ -589,6 +610,7 @@ th {
 
   .nav {
     justify-content: flex-start;
+    width: 100%;
   }
 
   .hero,
@@ -615,6 +637,27 @@ th {
   .topbar {
     padding-left: 14px;
     padding-right: 14px;
+  }
+
+  .nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+  }
+
+  .nav a {
+    justify-content: center;
+    min-width: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align: center;
+  }
+
+  .hero {
+    padding: 16px;
+  }
+
+  .hero h2 {
+    font-size: 24px;
   }
 
   .metrics {

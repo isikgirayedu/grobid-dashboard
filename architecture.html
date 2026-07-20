@@ -206,7 +206,7 @@
         <p>Training sistemi TRUBA'da, yayin sistemi GitHub Pages uzerinde calisir.</p>
       </div>
       <div class="pipeline">
-        <div class="pipeline-step"><strong>Slurm job</strong><span>TRUBA'da <code>train_citation_from_features</code> Wapiti logu uretir.</span></div>
+        <div class="pipeline-step"><strong>Slurm job</strong><span>TRUBA'da <code>train_citation_continuous_from_features</code> Wapiti logu uretir.</span></div>
         <div class="pipeline-step"><strong>Publisher</strong><span><code>tail -F</code> yeni iteration/checkpoint satiri gorunce JSON'u yeniden uretir.</span></div>
         <div class="pipeline-step"><strong>Git push</strong><span><code>main</code> ve <code>gh-pages</code> branch'lerine <code>progress.json</code> push edilir.</span></div>
         <div class="pipeline-step"><strong>GitHub Pages</strong><span>Statik HTML, CSS ve JSON dosyalarini public URL'den servis eder.</span></div>

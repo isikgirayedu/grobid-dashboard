@@ -25,17 +25,17 @@
     <section class="hero">
       <div>
         <p class="eyebrow">Experiment registry</p>
-        <h2>TR Dizin citation corpus icin acilan egitim denemeleri ve neyi test ettikleri.</h2>
+        <h2>TR Dizin citation corpus icin acilan egitim denemeleri, kaynak kararlarinin ve split run'in kaydi.</h2>
         <p>
-          Bu sayfa canli Wapiti run ile yeni full DeLFT GPU run arasindaki farki tek yerde tutar.
-          Wapiti karti mevcut canli grafikleri besleyen is; DeLFT karti ise ayni training hattinin
-          lightweight olmayan neural alternatifi olarak ayri source tree uzerinden baslatildi.
+          Bu sayfa yeni 10k split-aware Wapiti run'ini, daha yavas cikan 40-thread benchmark'i ve
+          full DeLFT GPU denemesini tek yerde tutar. Ana grafikler artik job <code>6118781</code>
+          logundan uretilen <code>progress.json</code> dosyasini okur.
         </p>
       </div>
       <div class="hero-meta" aria-label="Experiment summary">
-        <div><span>Active Wapiti job</span><strong>6103492</strong></div>
-        <div><span>New DeLFT job</span><strong>6116002</strong></div>
-        <div><span>Corpus</span><strong>TR Dizin citation</strong></div>
+        <div><span>Active Wapiti job</span><strong>6118781</strong></div>
+        <div><span>Split</span><strong>9000 / 500 / 500</strong></div>
+        <div><span>Benchmark</span><strong>40 thread slower</strong></div>
         <div><span>Cluster</span><strong>TRUBA Slurm</strong></div>
       </div>
     </section>
@@ -43,24 +43,25 @@
     <section class="section">
       <div class="section-header">
         <h2>Aktif experimentler</h2>
-        <p>Durum alanlari submit anindaki Slurm bilgisine gore yazildi; canli Wapiti metrikleri ana sayfada guncellenir.</p>
+        <p>Durum alanlari son kontrol ve log olcumlerine gore yazildi; canli Wapiti metrikleri ana sayfada guncellenir.</p>
       </div>
       <div class="experiment-grid">
         <article class="surface experiment-card">
           <div class="experiment-topline">
             <span class="status-pill status-running">RUNNING</span>
-            <span>Slurm job 6103492</span>
+            <span>Slurm job 6118781</span>
           </div>
-          <h3>Wapiti CRF citation from prebuilt features</h3>
+          <h3>TR Dizin 10k split Wapiti citation</h3>
           <p>
-            Bu mevcut lightweight run, daha once uretilmis feature dosyalarindan Wapiti CRF citation
-            modelini egitiyor. Amac hizli geri bildirim almak ve TR Dizin ile otomatik duzeltilen
-            TEI corpus'un model davranisini nasil etkiledigini izlemek.
+            Curated 10k citation corpus train/dev/test olarak ayrildi. Aktif run, 9000 XML'lik train
+            split icin hazir feature dosyasini yeniden kullanarak continuous Wapiti L-BFGS egitimi
+            yapiyor. 20 thread steady-state olcumleri 326-335 saniye araliginda.
           </p>
           <dl class="mini-facts">
             <div><dt>Source tree</dt><dd>/arf/scratch/isonal/grobid-training/grobid-source</dd></div>
-            <div><dt>Trainer</dt><dd>Wapiti CRF, L-BFGS</dd></div>
-            <div><dt>Publisher</dt><dd>tail -F yeni iteration veya checkpoint satiri geldikce push eder</dd></div>
+            <div><dt>Corpus</dt><dd>9000 train XML, 294800 references; dev/test 500 XML each</dd></div>
+            <div><dt>Resources</dt><dd>barbun, 20 CPU, 128G RAM, WAPITI_THREADS=20</dd></div>
+            <div><dt>Output</dt><dd>continuous model checkpoint at completion</dd></div>
             <div><dt>Dashboard</dt><dd><a href="index.html">Canli takip</a></dd></div>
           </dl>
         </article>
@@ -82,6 +83,61 @@
             <div><dt>Partition</dt><dd>akya-cuda, 1 GPU, 10 CPU, 90G RAM, 3 gun</dd></div>
             <div><dt>Log files</dt><dd>train_citation_full_delft.6116002.out / .err</dd></div>
             <div><dt>Model output</dt><dd>Basarili bitiste citation-BidLSTM_CRF_FEATURES modeli ve tar.gz snapshot</dd></div>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Kaynak tuning karar kaydi</h2>
+        <p>Iteration hizini artirmak icin denenen isler ve neden iptal edildikleri.</p>
+      </div>
+      <div class="experiment-grid">
+        <article class="surface experiment-card">
+          <div class="experiment-topline">
+            <span class="status-pill status-cancelled">CANCELLED</span>
+            <span>Slurm job 6118678</span>
+          </div>
+          <h3>40-core normal split training</h3>
+          <p>
+            Ilk split-aware submit 40 core / 192G ile feature generation ve Wapiti training hattina
+            girdi. Cluster tarafindan dusuk verim uyarisi gelince iptal edildi.
+          </p>
+          <dl class="mini-facts">
+            <div><dt>Reason</dt><dd>cluster efficiency warning, Eff 8.15%</dd></div>
+            <div><dt>Action</dt><dd>20-core configuration prepared</dd></div>
+          </dl>
+        </article>
+        <article class="surface experiment-card">
+          <div class="experiment-topline">
+            <span class="status-pill status-cancelled">CANCELLED</span>
+            <span>Slurm job 6118754</span>
+          </div>
+          <h3>20-core normal split training</h3>
+          <p>
+            Barbun kuyrugu node basina 20 core istedigi icin yeniden submit edildi. Is, feature
+            generation'i bastan tekrarladigi icin tamamlanmis feature dosyasina gecildi.
+          </p>
+          <dl class="mini-facts">
+            <div><dt>Reason</dt><dd>redundant feature generation</dd></div>
+            <div><dt>Action</dt><dd>from-features continuous run baslatildi</dd></div>
+          </dl>
+        </article>
+        <article class="surface experiment-card">
+          <div class="experiment-topline">
+            <span class="status-pill status-cancelled">CANCELLED</span>
+            <span>Slurm job 6118816</span>
+          </div>
+          <h3>40-thread from-features benchmark</h3>
+          <p>
+            Bos CPU varken iteration hizlanir mi diye model kurulumu kapali sekilde benchmark
+            calistirildi. 40 thread, 20 thread'den hizli cikmayinca iptal edildi.
+          </p>
+          <dl class="mini-facts">
+            <div><dt>20-thread pace</dt><dd>326-335s steady iteration</dd></div>
+            <div><dt>40-thread pace</dt><dd>iter1 768.33s, iter2 387.20s</dd></div>
+            <div><dt>Decision</dt><dd>ana egitim 20 thread ile devam</dd></div>
           </dl>
         </article>
       </div>
