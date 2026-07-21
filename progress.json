@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-21 06:22:41",
+  "generated_at": "2026-07-21 06:28:15",
   "job_id": "6118781",
   "status": {
     "state": "RUNNING",
-    "elapsed": "14:41:55",
+    "elapsed": "14:47:29",
     "time_limit": "3-00:00:00",
     "reason": "barbun66"
   },
@@ -11,9 +11,9 @@
   "log_file": {
     "exists": true,
     "path": "/arf/scratch/isonal/grobid-training/grobid-source/train_citation_continuous_from_features.6118781.err",
-    "size": 19118,
-    "mtime": 1784604160.0,
-    "mtime_text": "2026-07-21 06:22:40"
+    "size": 19196,
+    "mtime": 1784604494.0,
+    "mtime_text": "2026-07-21 06:28:14"
   },
   "summary": {
     "has_rows": true,
