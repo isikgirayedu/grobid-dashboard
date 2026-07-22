@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-21 20:58:09",
+  "generated_at": "2026-07-22 07:36:16",
   "job_id": "6118781",
   "status": {
-    "state": "RUNNING",
-    "elapsed": "1-05:17:23",
+    "state": "COMPLETED",
+    "elapsed": "1-05:17:39",
     "time_limit": "3-00:00:00",
-    "reason": "barbun66"
+    "reason": "ExitCode 0:0"
   },
   "status_error": null,
   "log_file": {
@@ -26,7 +26,8 @@
     "total_hours": 29.16482777777778,
     "avg_last_iterations_min": 5.5714,
     "target_iteration": 300,
-    "eta_to_target_hours": null
+    "eta_to_target_hours": null,
+    "completed": true
   },
   "rows": [
     {
@@ -3632,9 +3633,20 @@
   ],
   "checkpoints": {
     "exists": true,
-    "count": 5,
-    "latest": "model.from-features.stage005.iter0125.20260719224142.wapiti",
-    "latest_mtime": "2026-07-19 22:41:44"
+    "count": 1,
+    "latest": "model.continuous.iter0300.6118781.20260721205823.wapiti",
+    "latest_mtime": "2026-07-21 20:58:23",
+    "final_model": "grobid-home/models/citation/model.wapiti",
+    "model_size_bytes": 368515612,
+    "sha256": "9dc16203efd6356054297a57bbd7d118f291b3cf25f3c275436d6379a043754c"
   },
-  "checkpoint_note": "The staged run writes a usable model only after each completed stage/checkpoint."
+  "checkpoint_note": "Training completed successfully; the final Wapiti citation model is installed as grobid-home/models/citation/model.wapiti and archived in checkpoints.",
+  "run_notes": {
+    "title": "TR Dizin 10k split continuous citation run",
+    "corpus": "9000 train XML / 500 dev / 500 test from 10k good full-reference pool",
+    "features": "precomputed citation train features reused",
+    "resources": "20 CPU, 128G RAM, WAPITI_THREADS=20",
+    "result": "COMPLETED at iteration 300; token error 0.76%, sequence error 8.72%",
+    "artifact": "model.continuous.iter0300.6118781.20260721205823.wapiti"
+  }
 }
