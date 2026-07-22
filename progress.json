@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-22 11:37:37",
+  "generated_at": "2026-07-22 11:39:27",
   "job_id": "6126604",
   "status": {
     "state": "RUNNING",
-    "elapsed": "00:02:40",
+    "elapsed": "4:30",
     "time_limit": "3-00:00:00",
     "reason": "barbun75"
   },
@@ -11,51 +11,21 @@
   "log_file": {
     "exists": true,
     "path": "/arf/scratch/isonal/grobid-training/grobid-source/train_citation_split_300.6126604.err",
-    "size": 0,
-    "mtime": null,
-    "mtime_text": "waiting for first Wapiti iteration"
+    "size": 370,
+    "mtime": 1784709315.0,
+    "mtime_text": "2026-07-22 11:35:15"
   },
   "summary": {
     "has_rows": false,
     "last_iteration": null,
-    "stage": 1,
-    "raw_iteration": null,
-    "objective": null,
-    "token_error_pct": null,
-    "sequence_error_pct": null,
-    "total_hours": 0.0,
-    "avg_last_iterations_min": 5.57,
-    "target_iteration": 200,
-    "eta_to_target_hours": 18.57,
-    "completed": false,
-    "phase": "feature_generation"
+    "target_iteration": 200
   },
   "rows": [],
   "checkpoints": {
-    "latest": null,
-    "count": 0,
-    "directory": "/arf/scratch/isonal/grobid-training/grobid-source/grobid-home/models/citation/checkpoints"
+    "exists": true,
+    "count": 5,
+    "latest": "model.from-features.stage005.iter0125.20260719224142.wapiti",
+    "latest_mtime": "2026-07-19 22:41:44"
   },
-  "experiment": {
-    "name": "Clean-date good10k Wapiti citation",
-    "corpus": "trdizin_full_reference_training_clean_date_good10k",
-    "train_xml": 9000,
-    "dev_xml": 500,
-    "test_xml": 500,
-    "max_iter": 200,
-    "started_at": "2026-07-22 11:34:57 +03",
-    "expected_finish_note": "Onceki 334s/iter hiz korunursa 2026-07-23 sabah 07:00 civari. Feature generation suresi tahmini etkileyebilir."
-  },
-  "previous_results_summary": {
-    "job_id": "6118781",
-    "decision": "failed_eval_do_not_deploy",
-    "stock_reference_match_rate": 0.9761,
-    "candidate_reference_match_rate": 0.9463,
-    "stock_date_coverage": 0.9881,
-    "candidate_date_coverage": 0.3751,
-    "stock_article_title_coverage": 0.7476,
-    "candidate_article_title_coverage": 0.7018,
-    "stock_journal_title_coverage": 0.706,
-    "candidate_journal_title_coverage": 0.6794
-  }
+  "checkpoint_note": "The staged run writes a usable model only after each completed stage/checkpoint."
 }
