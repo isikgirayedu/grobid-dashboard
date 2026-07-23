@@ -34,10 +34,10 @@
         </p>
       </div>
       <div class="hero-meta" aria-label="Run summary">
-        <div><span>Active job</span><strong>6126604</strong></div>
+        <div><span>Evaluated job</span><strong>6126604</strong></div>
         <div><span>Train split</span><strong>9000 XML</strong></div>
         <div><span>Trainer</span><strong>Wapiti CRF, L-BFGS</strong></div>
-        <div><span>Target</span><strong>200 iter, ~07:00</strong></div>
+        <div><span>Result</span><strong>date fixed, stock-close</strong></div>
       </div>
     </section>
 
@@ -70,19 +70,20 @@
       <div class="experiment-grid">
         <article class="surface experiment-card">
           <div class="experiment-topline">
-            <span class="status-pill status-running">RUNNING</span>
+            <span class="status-pill status-ready">EVALUATED</span>
             <span>job 6126604</span>
           </div>
           <h3>Clean-date good10k Wapiti citation run</h3>
           <p>
             Eski modelin date/year hatasini ureten corpus yerine, yayin yilini <code>author</code>
-            alanindan ayiran clean-date 10k corpus ile yeni final run baslatildi. Train split
-            9000 XML; dev/test 500'er XML olarak held-out tutuluyor.
+            alanindan ayiran clean-date 10k corpus ile yeni final run tamamlandi. 100 PDF
+            stock-vs-candidate testinde date/year problemi buyuk olcude duzeldi; model stock'a
+            yaklasti ama article title, journal title ve DOI tarafinda hala geride.
           </p>
           <dl class="mini-facts">
-            <div><dt>MAX_ITER</dt><dd>200; onceki hizla yaklasik 18.6 saat training</dd></div>
-            <div><dt>Started</dt><dd>2026-07-22 11:34 TR, barbun75</dd></div>
-            <div><dt>Log</dt><dd>train_citation_split_300.6126604.err</dd></div>
+            <div><dt>Training</dt><dd>200 iteration, final token 0.93%, sequence 9.61%</dd></div>
+            <div><dt>Aligned eval</dt><dd>match 0.9761 -> 0.9751, date 0.9881 -> 0.9727</dd></div>
+            <div><dt>Remaining gap</dt><dd>article 0.7476 -> 0.7062, journal 0.7060 -> 0.6834</dd></div>
           </dl>
         </article>
         <article class="surface experiment-card">
